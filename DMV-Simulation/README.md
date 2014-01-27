@@ -9,11 +9,13 @@ Run the **DMV** executable with the *./DMV* command after Compiling.
 
 **Debugging:**
 Should you want to see the Semaphore or Object activity, you can use the Debug feature implemented in the Program. Use one of the following tags suffixed with a Debug Level:
- - **dM <X>** : Debugs the Main Process
- - **dC <X>** : Debugs the Customer Thread
- - **dA <X>** : Debugs the Announcer Thread
- - **dI <X>** : Debugs the Information Desk Thread
- - **dG <X>** : Debugs the Agent Thread
+ - **dM &lt;X&gt;** : Debugs the Main Process
+ - **dC &lt;X&gt;** : Debugs the Customer Thread
+ - **dA &lt;X&gt;** : Debugs the Announcer Thread
+ - **dI &lt;X&gt;** : Debugs the Information Desk Thread
+ - **dG &lt;X&gt;** : Debugs the Agent Thread
+
+*Note:* The Debugger for this Program was designed for the Bash Console, and may result in undesired effects in other Consoles.
 
 **Debug Levels:**
  - **1** : Basic Semaphore Activity (Includes Name and Value)
@@ -21,18 +23,18 @@ Should you want to see the Semaphore or Object activity, you can use the Debug f
  - **3** : Object Activity (Includes Creation and Deletion)
 
 **Example:**
-	Project2 –dC 3 –dG 1 *(Debugs Customer at Level 3 and Agent at Level 1)*
+	DMV -dC 3 -dG 1 *(Debugs Customer at Level 3 and Agent at Level 1)*
 
 **Output:**
 	Each thread outputs information prefixed with its own declaration. The various declarations of each thread is as follows:
 
 
 **Declarations:**
- - **Main:**		[Main | <Subsection>]:
- - **Customer:**		[Customer <ID>, <Ticket Number>]:
- - **Information Desk:**	[Information Desk]:
- - **Announcer:**		[Announcer]:
- - **Agent:**		[Agent <ID>]:
+ - **Main:** [Main | &lt;Subsection&gt;]:
+ - **Customer:** [Customer &lt;ID&gt;, &lt;Ticket Number&gt;]:
+ - **Information Desk:** [Information Desk]:
+ - **Announcer:** [Announcer]:
+ - **Agent:** [Agent &lt;ID&gt;]:
 
 
 **File Descriptions:**
