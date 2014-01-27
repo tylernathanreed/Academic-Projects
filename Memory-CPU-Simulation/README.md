@@ -1,4 +1,4 @@
-MemoryCPUSimulation
+Memory/CPU Simulation
 ===================
 
 Simulates the Memory and CPU of a Computer using Pipes to Communicate
