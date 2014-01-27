@@ -6,9 +6,9 @@ This Repository contains all of my Academic Projects. They have been categorized
 Contents:
 --------
  - **C/C++**:
-    - DMV Simulation *(WIP)*
-    - Memory/CPU Simulation
     - Client/Server Simulation *(WIP)*
+    - DMV Simulation
+    - Memory/CPU Simulation
  - **C#/.NET**:
     - Contact Manager *(WIP)*
  - **Java**:
