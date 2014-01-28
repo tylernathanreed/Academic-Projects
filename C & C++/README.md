@@ -1,8 +1,7 @@
 C/C++
-=====
+-----
 
-Contents:
---------
+**Contents:**
  - Client/Server Simulation *(WIP)*
  - DMV Simulation
  - Memory/CPU Simulation
