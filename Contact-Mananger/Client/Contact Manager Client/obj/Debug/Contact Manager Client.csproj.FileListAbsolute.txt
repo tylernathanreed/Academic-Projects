@@ -1,0 +1,28 @@
+C:\Users\Boom\AppData\Local\Temporary Projects\Contact Manager Client\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Boom\AppData\Local\Temporary Projects\Contact Manager Client\obj\Debug\Contact_Manager_Client.Properties.Resources.resources
+C:\Users\Boom\AppData\Local\Temporary Projects\Contact Manager Client\obj\Debug\Contact Manager Client.csproj.GenerateResource.Cache
+C:\Users\Boom\AppData\Local\Temporary Projects\Contact Manager Client\bin\Debug\Contact Manager Client.exe
+C:\Users\Boom\AppData\Local\Temporary Projects\Contact Manager Client\bin\Debug\Contact Manager Client.pdb
+C:\Users\Boom\AppData\Local\Temporary Projects\Contact Manager Client\obj\Debug\Contact Manager Client.exe
+C:\Users\Boom\AppData\Local\Temporary Projects\Contact Manager Client\obj\Debug\Contact Manager Client.pdb
+C:\Users\Boom\AppData\Local\Temporary Projects\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_Connect.resources
+C:\Users\Boom\AppData\Local\Temporary Projects\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_Database.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact Manager Client.exe
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact Manager Client.pdb
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\bin\Debug\Contact Manager Client.exe
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\bin\Debug\Contact Manager Client.pdb
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_Connect.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Properties.Resources.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact Manager Client.csproj.GenerateResource.Cache
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_ContactManager.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_CreateContact.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_Switchboard.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_SQLInjector.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_ConfirmDelete.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_AddRelationship.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_CreateAddress.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_CreateEmail.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_CreateGroup.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_CreateMember.resources
+C:\Users\Boom\Documents\Visual Studio 2008\Projects\Contact Manager Client\Contact Manager Client\obj\Debug\Contact_Manager_Client.Form_CreatePhoneNumber.resources
