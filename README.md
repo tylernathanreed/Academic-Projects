@@ -10,5 +10,6 @@ Contents:
     - DMV Simulation
     - Memory/CPU Simulation
  - **C#/.NET**:
-    - Contact Manager *(WIP)*
+    - Contact Manager
  - **Java**:
+    - Generic Best-First Search
