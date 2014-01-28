@@ -6,6 +6,6 @@ All projects are designed to run using the **g++** compiler. Programs are tested
 I used <a href="http://www.netsarang.com/products/xsh_overview.html">XShell</a> for all my projects.
 
 **Contents:**
- - Client/Server Simulation *(WIP)*
+ - Client/Server Simulation
  - DMV Simulation
  - Memory/CPU Simulation
