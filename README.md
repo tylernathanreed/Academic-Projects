@@ -6,7 +6,7 @@ This Repository contains all of my Academic Projects. They have been categorized
 Contents:
 --------
  - **C/C++**:
-    - Client/Server Simulation *(WIP)*
+    - Client/Server Simulation
     - DMV Simulation
     - Memory/CPU Simulation
  - **C#/.NET**:
