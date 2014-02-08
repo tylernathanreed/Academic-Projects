@@ -17,7 +17,7 @@ The following Flags serve the specified Purpose:
  - -print : Tells the Program to Print each Step
 
 **Example:**
-	java -jar GenericBestFirstSearch.jar -f ./input.txt -t ASTAR *(Runs the Program using A&ast; Search)*
+	java -jar GenericBestFirstSearch.jar -f ./input.txt -t ASTAR *(Runs the Program using A&#42; Search)*
 
 **Output:**
 	Each thread outputs information prefixed with its own declaration. The various declarations of each thread is as follows:
