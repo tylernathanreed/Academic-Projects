@@ -6,44 +6,28 @@ No compiling is necessary. Download the contents in the *exe* folder.
 
 **Execution:**
 Run the **GenericBestFirstSearch.jar** File with the following command:
-    java -jar GenericBestFirstSearch.jar -f <File Path> -t <Ssearch Type> [-cost] [-print]
+    java -jar &lt;Jar File&gt; -f &lt;Input File Path&gt; -t &lt;Search Type&gt; [-cost] [-print]
 
 **Flags:**
 The following Flags serve the specified Purpose:
  - -jar &lt;Jar File&gt; : Tells Java to run the specified Jar File *(GenericBestFirstSearch.jar)*
- - -jar &lt;Jar File&gt; : Tells Java to run the specified Jar File *(GenericBestFirstSearch.jar)*
-  - -jar &lt;Jar File&gt; : Tells Java to run the specified Jar File *(GenericBestFirstSearch.jar)* - -jar &lt;Jar File&gt; : Tells Java to run the specified Jar File *(GenericBestFirstSearch.jar)*
-
-*Note:* The Debugger for this Program was designed for the Bash Console, and may result in undesired effects in other Consoles.
-
-**Debug Levels:**
- - **1** : Basic Semaphore Activity (Includes Name and Value)
- - **2** : Mutex Semaphore Activity (Includes Name and Value)
- - **3** : Object Activity (Includes Creation and Deletion)
+ - -f &lt;Input File Path&gt; : Tells the Program to use the specified Input File *(./input.txt)*
+ - -t &lt;Search Type&gt; : Tells the Program which Search Type to Use *(DFS|BFS|UCS|GS|ASTAR)*
+ - -cost : Tells the Program to Print the Cost of each Step
+ - -print : Tells the Program to Print each Step
 
 **Example:**
-	DMV -dC 3 -dG 1 *(Debugs Customer at Level 3 and Agent at Level 1)*
+	java -jar GenericBestFirstSearch.jar -f ./input.txt -t ASTAR *(Runs the Program using A&ast; Search)*
 
 **Output:**
 	Each thread outputs information prefixed with its own declaration. The various declarations of each thread is as follows:
 
-
-**Declarations:**
- - **Main:** [Main | &lt;Subsection&gt;]:
- - **Customer:** [Customer &lt;ID&gt;, &lt;Ticket Number&gt;]:
- - **Information Desk:** [Information Desk]:
- - **Announcer:** [Announcer]:
- - **Agent:** [Agent &lt;ID&gt;]:
-
-
 **File Descriptions:**
- - **Agent.h:** Defines the *Agent* Class, which calls the Customers from the Agent Line
- - **Announcer.h:** Defines the *Announcer* Class, which calls the Customers to the Agent Line from the Information Line
- - **Customer.h:** Defines the *Customer* Class, which is a Customer at the DMV
- - **Debug.h:** Defines the *Debug* Class, which is a Support Class for debugging Programs
- - **Definitions.h:** Defines all of the Constants in the Program
- - **InformationDesk.h:** Defines the *InformationDesk* Class, which calls the Customers from the Information Line
- - **itoa.h:** Defines the *itoa* function embedded in the *ITOA* Namespace
- - ***Main.cpp:*** Runs the Program
- - **Semaphores.h:** Defines all of the Semaphores in the Program
- - **Threads.h:** Defines all of the Threads and Threaded Functions in the Program
+ - **Configuration.java:** Defines the *Configuation* Class, which stores *static* information about the Search Procedure
+ - **InvalidSearchTypeException.java:** Defines the *InvalidSearchType* Exception, which is called is an Invalid Search Type is used to create the *Configuration* class
+ - ***Main.java*** Defines the *Main* Class, which runs the Program and interprets the Command Line
+ - **Move.java** Defines the *Move* Class, whichs acts as a Successor Function for the Problem State
+ - **Search.java** Defines the *Search* Class, which performs the Generic Search Algorithm
+ - **SearchNode.java** Defines the *SearchNode* Class, which is used to iterate through the State Space
+ - **SearchQueue.java** Defines the *SearchQueue* Class, which contains the Un-Expanded Leaf Nodes in the State Tree
+ - **SearchType.java** Defines the *SearchType* Enumeration, which details the different types of Search Types
