@@ -40,6 +40,9 @@ public class Search
 	// Performs the Search for the Goal State
 	private void doSearch()
 	{
+		// Initialize Step Count
+		int steps = 0;
+
 		// Loop Indefinitely
 		while(true)
 		{
@@ -59,12 +62,19 @@ public class Search
 			// Add the Move to the Visisted States
 			visitedStates.add(node.getState());
 
+			// Print the Current Step
+			if(Configuration.isPrinting())
+				node.printCurrentStep();
+
 			// Check for Goal
 			if(node.isGoalState())
 			{
 				System.out.println(node.printSolution());
+				System.out.println("Nodes Expanded: " + steps);
 				return;
 			}
+			else
+				steps++;
 
 			// Get the Next Move
 			int index = 0;

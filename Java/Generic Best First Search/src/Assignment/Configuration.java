@@ -4,34 +4,28 @@
 // Stores Search Configuration Information
 
 //* Package *//
-
 package Assignment;
 
 //* Search Configuration Class *//
 public class Configuration
 {
-	// * Constants *//
-	public static final String TYPE_DFS = "DFS";
-	public static final String TYPE_BFS = "BFS";
-	public static final String TYPE_UCS = "UCS";
-	public static final String TYPE_GS = "GS";
-	public static final String TYPE_ASTAR = "ASTAR";
-
 	// * Class Variables *//
 	private static String initialState;
-	private static String searchType;
+	private static SearchType searchType;
 	private static boolean costing = false;
+	private static boolean printing = false;
 
 	// * Constructor *//
 	// Creates the Configuration Class
-	public Configuration(String initialState, String searchType, boolean costing)
+	public Configuration(String initialState, SearchType searchType, boolean costing, boolean printing)
 	{
-		if(!isValidSearchType(searchType))
-			throw new InvalidSearchTypeException("Invalid Search Type: " + searchType);
+		if(searchType == SearchType.TYPE_NONE)
+			throw new InvalidSearchTypeException(searchType.toString());
 
 		Configuration.initialState = initialState;
 		Configuration.searchType = searchType;
 		Configuration.costing = costing;
+		Configuration.printing = printing;
 	}
 
 	// * Initial State Methods *//
@@ -51,57 +45,90 @@ public class Configuration
 
 	// * Search Type Methods *//
 	// Returns the Search Type of the Configuration
-	public static String getSearchType()
+	public static SearchType getSearchType()
 	{
 		return searchType;
 	}
 
 	// Sets the Search Type of the Configuration
-	public static String setSearchType(String searchType)
+	public static SearchType setSearchType(SearchType searchType)
 	{
-		String old = Configuration.searchType;
+		SearchType old = Configuration.searchType;
 		Configuration.searchType = searchType;
 		return old;
+	}
+
+	// Returns the Name of the Search Type
+	public static String getSearchTypeName()
+	{
+		switch(searchType)
+		{
+			case TYPE_DFS:
+				return "Depth-First Search";
+			case TYPE_BFS:
+				return "Breadth-First Search";
+			case TYPE_GS:
+				return "Greedy Search";
+			case TYPE_UCS:
+				return "Uniform-Cost Search";
+			case TYPE_ASTAR:
+				return "A* Search";
+			default:
+				return "None";
+		}
 	}
 
 	// Returns whether or not the Search Type is Depth-First Search
 	public static boolean isDFS()
 	{
-		return searchType.equalsIgnoreCase(TYPE_DFS);
+		return searchType == SearchType.TYPE_DFS;
 	}
 
 	// Returns whether or not the Search Type is Depth-First Search
 	public static boolean isBFS()
 	{
-		return searchType.equalsIgnoreCase(TYPE_BFS);
+		return searchType == SearchType.TYPE_BFS;
 	}
 
 	// Returns whether or not the Search Type is Depth-First Search
 	public static boolean isUCS()
 	{
-		return searchType.equalsIgnoreCase(TYPE_UCS);
+		return searchType == SearchType.TYPE_UCS;
 	}
 
 	// Returns whether or not the Search Type is Depth-First Search
 	public static boolean isGS()
 	{
-		return searchType.equalsIgnoreCase(TYPE_GS);
+		return searchType == SearchType.TYPE_GS;
 	}
 
 	// Returns whether or not the Search Type is Depth-First Search
 	public static boolean isAStar()
 	{
-		return searchType.equalsIgnoreCase(TYPE_ASTAR);
+		return searchType == SearchType.TYPE_ASTAR;
 	}
 
 	// Returns whether or not the specified Search Type is Valid
-	public static boolean isValidSearchType(String searchType)
+	public static boolean isValidSearchType(SearchType searchType)
 	{
-		return searchType.equalsIgnoreCase(TYPE_DFS) ||
-			   searchType.equalsIgnoreCase(TYPE_BFS) ||
-			   searchType.equalsIgnoreCase(TYPE_UCS) ||
-			   searchType.equalsIgnoreCase(TYPE_GS)  ||
-			   searchType.equalsIgnoreCase(TYPE_ASTAR);
+		return searchType != SearchType.TYPE_NONE;
+	}
+
+	// Casts the given String to a Search Type
+	public static SearchType castToSearchType(String searchType)
+	{
+		if(searchType.equalsIgnoreCase("BFS"))
+			return SearchType.TYPE_BFS;
+		else if(searchType.equalsIgnoreCase("DFS"))
+			return SearchType.TYPE_DFS;
+		else if(searchType.equalsIgnoreCase("GS"))
+			return SearchType.TYPE_GS;
+		else if(searchType.equalsIgnoreCase("UCS"))
+			return SearchType.TYPE_UCS;
+		else if(searchType.equalsIgnoreCase("ASTAR"))
+			return SearchType.TYPE_ASTAR;
+		else
+			return SearchType.TYPE_NONE;
 	}
 
 	// * Costing Methods *//
@@ -116,6 +143,21 @@ public class Configuration
 	{
 		boolean old = Configuration.costing;
 		Configuration.costing = costing;
+		return old;
+	}
+
+	// * Printing Methods *//
+	// Returns whether or not the Configuration is Printing each Step
+	public static boolean isPrinting()
+	{
+		return printing;
+	}
+
+	// Sets whether or not the Configuration is Printing each Step
+	public static boolean setPrinting(boolean printing)
+	{
+		boolean old = Configuration.printing;
+		Configuration.printing = printing;
 		return old;
 	}
 }

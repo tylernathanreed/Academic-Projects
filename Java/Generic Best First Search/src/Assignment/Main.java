@@ -21,14 +21,23 @@ public class Main
 	{
 		// Interpret Command Line Arguments
 		boolean cost = hasCostFlag(args);
-		String searchType = getSearchType(args);
+		SearchType searchType = Configuration.castToSearchType(getSearchType(args));
 		String filePath = getFilePath(args);
+		boolean print = hasPrintFlag(args);
 
 		// Determine the Initial State from the File
 		String initialState = getInitialState(filePath);
 
 		// Create the Search Configuration
-		Configuration configuration = new Configuration(initialState, searchType, cost);
+		Configuration configuration = null;
+
+		try { configuration = new Configuration(initialState, searchType, cost, print); }
+		catch(InvalidSearchTypeException ex)
+		{
+			System.err.println("Invalid Search Type: '" + getSearchType(args) + "'\n -> Use <-t type> Argument" +
+					"\n    -> Valid Search Types are: BFS | DFS | GS | UCS | ASTAR");
+			System.exit(0);
+		}
 
 		// Create the Search Class
 		new Search(configuration);
@@ -47,12 +56,12 @@ public class Main
 		}
 		catch(FileNotFoundException ex)
 		{
-			System.out.println("Invalid File Path: " + filePath);
+			System.err.println("Invalid File Path: '" + filePath + "'\n -> Use: <-f filepath> Argument");
 			System.exit(0);
 		}
 		catch(IOException ex)
 		{
-			System.out.println("Invalid Contant: " + filePath);
+			System.err.println("Invalid Content: '" + filePath + "'");
 			System.exit(0);
 		}
 
@@ -89,5 +98,15 @@ public class Main
 				return args[i + 1];
 
 		return "";
+	}
+
+	// Returns whether or not the '-print' Flag was Found
+	public static boolean hasPrintFlag(String[] args)
+	{
+		for(int i = 0; i < args.length; i++)
+			if(args[i].equals("-print"))
+				return true;
+
+		return false;
 	}
 }
