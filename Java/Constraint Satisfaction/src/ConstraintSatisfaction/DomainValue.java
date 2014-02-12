@@ -7,7 +7,7 @@
 package ConstraintSatisfaction;
 
 //* Interface *//
-public interface DomainValue
+public interface DomainValue extends Comparable<DomainValue>
 {
 
 }
