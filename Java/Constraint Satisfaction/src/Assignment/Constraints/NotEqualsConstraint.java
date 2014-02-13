@@ -1,21 +1,21 @@
 //* Description *//
-// Title: Less Than Constraint
+// Title: Not Equals Constraint
 // Author: Tyler Reed
-// Defines a Less Than Constraint for "A < B"
+// Defines an Not Equals Constraint for "A != B"
 
 //* Package *//
-package Assignment;
+package Assignment.Constraints;
 
 //* Libraries *//
 import ConstraintSatisfaction.Constraint;
 import ConstraintSatisfaction.ConstrainedVariable;
 
 //* Class *//
-public class LessThanConstraint extends Constraint
+public class NotEqualsConstraint extends Constraint
 {
 	//* Constructor *//
 	// Creates the Less Than Constraint Class
-	public LessThanConstraint(ConstrainedVariable left, ConstrainedVariable right)
+	public NotEqualsConstraint(ConstrainedVariable left, ConstrainedVariable right)
 	{
 		super(left, right);
 	}
@@ -24,7 +24,7 @@ public class LessThanConstraint extends Constraint
 	public boolean isEnforced()
 	{
 		if(isAssigned())
-			return left.getAssignedValue().compareTo(right.getAssignedValue()) < 0;
+			return left.getAssignedValue().compareTo(right.getAssignedValue()) != 0;
 		else
 			return false;
 	}

@@ -6,13 +6,29 @@
 //* Package *//
 package Assignment;
 
+import java.util.List;
+
+
 //* Libraries *//
 import ConstraintSatisfaction.ConstrainedVariable;
+import ConstraintSatisfaction.DomainValue;
 
 //* Class *//
 public class Letter extends ConstrainedVariable
 {
+	//* Class Variables *//
 	private char ch;
+
+	public Letter(Object variable, List<DomainValue> domain)
+	{
+		super(variable, domain);
+		ch = (char) variable;
+	}
+
+	public Letter(String variable, List<Integer> domain)
+	{
+		super((Object) variable, (List<DomainValue>) domain);
+	}
 
 	//* Character Methods *//
 	// Returns the Character of the Letter

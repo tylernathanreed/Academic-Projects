@@ -4,10 +4,12 @@
 // Reads the Variable Constraints from File
 
 //* Package *//
-package Input;
+package Assignment.Input;
 
 //* Libraries *//
 import java.io.File;
+import java.io.FileNotFoundException;
+
 import ConstraintSatisfaction.Configuration.*;
 
 //* Class *//
@@ -24,10 +26,16 @@ public class Input
 	private ValueHeuristic valueHeuristic;
 
 	//* Constructor *//
-	public Input(String variablePath, String constraintPath)
+	public Input(String variablePath, String constraintPath) throws FileNotFoundException
 	{
 		variableFile = new File(variablePath);
 		constraintFile = new File(constraintPath);
+
+		// Make sure the Files Exist
+		if(!variableFile.exists())
+			throw new FileNotFoundException("variable");
+		else if(!constraintFile.exists())
+			throw new FileNotFoundException("constraint");
 
 		variableHeuristic = VariableHeuristic.MostConstraining;
 		valueHeuristic = ValueHeuristic.LeastingConstraining;
@@ -39,6 +47,7 @@ public class Input
 	{
 		return variableFile;
 	}
+
 	// Returns the Constraint File
 	public File getConstraintFile()
 	{

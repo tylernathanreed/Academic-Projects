@@ -13,9 +13,18 @@ import java.util.List;
 public abstract class ConstrainedVariable implements Comparable<ConstrainedVariable>
 {
 	//* Class Variables *//
-	protected List<DomainValue> values;
+	protected Object variable;
+	protected List<DomainValue> domain;
 	protected List<ConstrainedVariable> constraints;
 	protected DomainValue assignment;
+
+	//* Constructor *//
+	// Creates the Extendable Constrained Variable Class
+	public ConstrainedVariable(Object variable, List<DomainValue> domain)
+	{
+		this.variable = variable;
+		this.domain = domain;
+	}
 
 	//* Constraint Methods *//
 	// Applies the Contraints to the Constrained Variables
@@ -48,8 +57,8 @@ public abstract class ConstrainedVariable implements Comparable<ConstrainedVaria
 		this.assignment = assignment;
 
 		// Update the Available Values
-		values.clear();
-		values.add(assignment);
+		domain.clear();
+		domain.add(assignment);
 
 		// Apply Constraints
 		applyConstraints();
@@ -67,28 +76,28 @@ public abstract class ConstrainedVariable implements Comparable<ConstrainedVaria
 	// Returns the Number of Remaining Values
 	public int getValueCount()
 	{
-		return values.size();
+		return domain.size();
 	}
 
 	// Returns the specified Value
 	public DomainValue getValue(int index)
 	{
-		return values.get(index);
+		return domain.get(index);
 	}
 
 	// Adds the specified Value to the Domain
 	public boolean addValue(DomainValue value)
 	{
 		// Ignore Duplicates
-		if(values.contains(value))
+		if(domain.contains(value))
 			return false;
 
-		return values.add(value);
+		return domain.add(value);
 	}
 
 	// Removes the specified Domain Value
 	public boolean removeValue(DomainValue value)
 	{
-		return values.remove(value);
+		return domain.remove(value);
 	}
 }

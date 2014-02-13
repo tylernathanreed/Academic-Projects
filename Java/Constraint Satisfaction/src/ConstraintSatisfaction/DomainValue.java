@@ -9,5 +9,5 @@ package ConstraintSatisfaction;
 //* Interface *//
 public interface DomainValue extends Comparable<DomainValue>
 {
-
+	public Object getValue();
 }
