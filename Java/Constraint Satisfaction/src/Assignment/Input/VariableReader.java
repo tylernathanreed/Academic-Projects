@@ -38,7 +38,7 @@ public class VariableReader
 
 		// Ignore Blank Lines
 		if(line == null || line.equals(""))
-			return null;
+			return read();
 
 		// Require "Variable: Domain" Syntax
 		if(!line.contains(":"))
@@ -71,5 +71,25 @@ public class VariableReader
 		}
 
 		ConstrainedVariable variable = new Letter(components[0], domain);
+		return variable;
+	}
+
+	// Reads and Returns all Variables
+	public List<ConstrainedVariable> readAll() throws IOException, FileFormatException
+	{
+		List<ConstrainedVariable> variables = new ArrayList<ConstrainedVariable>();
+
+		ConstrainedVariable variable = read();
+
+		while(variable != null)
+		{
+			if(variables.contains(variable))
+				throw new FileFormatException("Invalid Syntax on Line " + currentLine + ": Duplicate Variable Name");
+
+			variables.add(variable);
+			variable = read();
+		}
+
+		return variables;
 	}
 }
