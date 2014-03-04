@@ -6,12 +6,10 @@
 //* Package *//
 package Assignment;
 
-import java.util.List;
-
-
 //* Libraries *//
 import ConstraintSatisfaction.ConstrainedVariable;
 import ConstraintSatisfaction.DomainValue;
+import java.util.List;
 
 //* Class *//
 public class Letter extends ConstrainedVariable
@@ -19,15 +17,12 @@ public class Letter extends ConstrainedVariable
 	//* Class Variables *//
 	private char ch;
 
-	public Letter(Object variable, List<DomainValue> domain)
+	//* Constructors *//
+	public Letter(String variable, List<DomainValue> domain)
 	{
 		super(variable, domain);
-		ch = (char) variable;
-	}
 
-	public Letter(String variable, List<Integer> domain)
-	{
-		super((Object) variable, (List<DomainValue>) domain);
+		ch = variable.charAt(0);
 	}
 
 	//* Character Methods *//
@@ -37,6 +32,8 @@ public class Letter extends ConstrainedVariable
 		return ch;
 	}
 
+	//* Interface Methods *//
+	// Returns an Integer (-1, 0, 1) representing a Comparison
 	public int compareTo(ConstrainedVariable variable)
 	{
 		Letter letter = (Letter) variable;
@@ -49,9 +46,10 @@ public class Letter extends ConstrainedVariable
 			return 0;
 	}
 
-	protected void applyConstraints()
+	//* Conversion Methods *//
+	// Returns the Letter represented as a String
+	public String toString()
 	{
-		// TODO Auto-generated method stub
-		
+			return "" + ch;
 	}
 }

@@ -37,19 +37,28 @@ public class LetterValue implements DomainValue
 
 	//* Comparable Methods *//
 	// Returns an Integer (-1, 0, 1) representing a Comparison
-	public int compareTo(LetterValue otherValue)
+	public int compareTo(DomainValue otherValue)
 	{
-		if(value > otherValue.value)
+		int val = ((LetterValue) otherValue).value;
+
+		if(value > val)
 			return 1;
-		else if(value < otherValue.value)
+		else if(value < val)
 			return -1;
-		else
+		else // value == val
 			return 0;
 	}
 
-	@Override
-	public int compareTo(DomainValue o) {
-		// TODO Auto-generated method stub
-		return 0;
+	// Returns whether or not the Value is Equal to the specified Value
+	public boolean equals(Object otherValue)
+	{
+		return compareTo((DomainValue) otherValue) == 0;
+	}
+
+	//* Conversion Methds *//
+	// Returns the Letter Value as a String
+	public String toString()
+	{
+		return "" + value;
 	}
 }

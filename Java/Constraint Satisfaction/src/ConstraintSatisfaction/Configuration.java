@@ -9,6 +9,9 @@ package ConstraintSatisfaction;
 //* Class *//
 public class Configuration
 {
+	//* Class Variables *//
+	public static boolean debug = true;
+
 	//* Enumerations *//
 	// Defines the Consistency Enforcing Procedure Types
 	public static enum ConsistencyProcedure
@@ -25,6 +28,6 @@ public class Configuration
 	// Defines the Value Heuristic Types
 	public static enum ValueHeuristic
 	{
-		Increment, LeastingConstraining;
+		Increment, LeastConstraining;
 	}
 }

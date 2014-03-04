@@ -37,7 +37,7 @@ public class ConstraintSolver
 				return getGreatestVariable(variables);
 			}
 			else
-				return ties.get(0);
+				return variables.get(0);
 		}
 		else
 			return variables.get(0);

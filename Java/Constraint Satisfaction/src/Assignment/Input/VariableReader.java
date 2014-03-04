@@ -11,9 +11,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import Assignment.Letter;
-import ConstraintSatisfaction.ConstrainedVariable;
+import Assignment.LetterValue;
+import ConstraintSatisfaction.DomainValue;
 
 //* Class *//
 public class VariableReader
@@ -31,60 +31,63 @@ public class VariableReader
 
 	//* Read Methods *//
 	// Reads and Returns the next Variable
-	public ConstrainedVariable read() throws IOException, FileFormatException
+	public Letter read() throws IOException, FileFormatException
 	{
 		String line = reader.readLine();
 		currentLine++;
 
 		// Ignore Blank Lines
 		if(line == null || line.equals(""))
-			return read();
+			return null;
 
 		// Require "Variable: Domain" Syntax
 		if(!line.contains(":"))
-			throw new FileFormatException("Invalid Syntax on Line " + currentLine + ": Missing ':' Delimiter");
+			throw new FileFormatException("[Variables] Invalid Syntax on Line " + currentLine + ": Missing ':' Delimiter");
 
 		// Determine the Variable Components
 		String[] components = line.split(":");
 
 		// Require Only "Variable" and "Domain" Components
 		if(components.length > 2)
-			throw new FileFormatException("Invalid Syntax on Line " + currentLine + ": Multiple ':' Delimiters");
+			throw new FileFormatException("[Variables] Invalid Syntax on Line " + currentLine + ": Multiple ':' Delimiters");
 
 		// Determine Domain Components
 		String[] values = components[1].split("\\s");
 
 		// Convert Domain Components to Integers
-		List<Integer> domain = new ArrayList<Integer>(values.length);
+		List<DomainValue> domain = new ArrayList<DomainValue>(values.length);
 
 		for(int i = 0; i < values.length; i++)
 		{
 			if(values[i].length() > 0)
 				try
 				{
-					domain.add(Integer.valueOf(Integer.parseInt(values[i])));
+					domain.add(new LetterValue(Integer.valueOf(Integer.parseInt(values[i]))));
 				}
 				catch(NumberFormatException ex)
 				{
-					throw new FileFormatException("Invalid Syntax on Line " + currentLine + ": Invalid Number Format");
+					throw new FileFormatException("[Variables] Invalid Syntax on Line " + currentLine + ": Invalid Number Format");
 				}
 		}
 
-		ConstrainedVariable variable = new Letter(components[0], domain);
+		Letter variable = new Letter(components[0], domain);
 		return variable;
 	}
 
 	// Reads and Returns all Variables
-	public List<ConstrainedVariable> readAll() throws IOException, FileFormatException
+	public List<Letter> readAll() throws IOException, FileFormatException
 	{
-		List<ConstrainedVariable> variables = new ArrayList<ConstrainedVariable>();
+		// Create the List of Variables
+		List<Letter> variables = new ArrayList<Letter>();
 
-		ConstrainedVariable variable = read();
+		// Read the First Variable
+		Letter variable = read();
 
+		// Read the Remaining Variables
 		while(variable != null)
 		{
 			if(variables.contains(variable))
-				throw new FileFormatException("Invalid Syntax on Line " + currentLine + ": Duplicate Variable Name");
+				throw new FileFormatException("[Variables] Invalid Syntax on Line " + currentLine + ": Duplicate Variable Name");
 
 			variables.add(variable);
 			variable = read();
