@@ -41,7 +41,7 @@ This file is used to define Variables and their Domains. Variables and their dom
     B: 1 2 3 4 5
     C: 1 2 3 4 5
     D: 1 2 3
-    E: 1 2`
+    E: 1 2
 
 It should be noted that this type of input is Implementation Specific, and may be adapted without having to change anything in the Constraint Satisfaction Package.
 
