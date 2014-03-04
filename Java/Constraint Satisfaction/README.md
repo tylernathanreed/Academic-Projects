@@ -34,6 +34,25 @@ The following Flags serve the specified Purpose:
 **Output:**<br>
 The Program will Output each Step in the following Format: `#) <Variable> = <Value>, ..., <Variable> = <Value> <Success|Failure>` 
 
+**Variable Definition File:**<br>
+This file is used to define Variables and their Domains. Variables and their domains may be defined as such:
+    A: 1 2 3 4 5
+    B: 1 2 3 4 5
+    C: 1 2 3 4 5
+    D: 1 2 3
+    E: 1 2
+
+It should be noted that this type of input is Implementation Specific, and may be adapted without having to change anything in the Constraint Satisfaction Package.
+
+**Constraint Definition File:**<br>
+This file is used to define Constraints and their Participants and Operators. Constraints may be defined as such:
+    A > B
+    B > C
+    D ! A
+    E = B
+
+It should be noted that this type of input is Implementation Specific, and may be adapted without having to change anything in the Constraint Satisfaction Package.
+
 **File Descriptions:**
  - Assignment: Contains Implementation Specific Classes
     - Constraints: Contains specific Constraint Implementations
