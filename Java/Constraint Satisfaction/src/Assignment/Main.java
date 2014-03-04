@@ -134,9 +134,9 @@ public class Main
 	// Returns the Solver and Catches Errors
 	public static AbstractSolver getSolver(String procedure, VariableOrdering variableOrdering, ValueOrderingFactory valueOrderingFactory, List<Constraint> constraints)
 	{
-		if(procedure.equalsIgnoreCase("fc"))
+		if(procedure != null && procedure.equalsIgnoreCase("fc"))
 			return new FCSolver(variableOrdering, valueOrderingFactory, constraints);
-		else if(procedure.equalsIgnoreCase("cp"))
+		else if(procedure != null && procedure.equalsIgnoreCase("cp"))
 			return null; // Not Yet Implemented
 		else
 			return new Solver(variableOrdering, valueOrderingFactory, constraints);
