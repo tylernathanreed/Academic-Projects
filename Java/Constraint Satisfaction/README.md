@@ -35,11 +35,11 @@ The following Flags serve the specified Purpose:
 The Program will Output each Step in the following Format: `#) <Variable> = <Value>, ..., <Variable> = <Value> <Success|Failure>` 
 
 **File Descriptions:**
- - Assignment: Contains Implementation specific Classes
+ - Assignment: Contains Implementation Specific Classes
     - Constraints: Contains specific Constraint Implementations
        - `EqualsConstraint.java`: Defines the *EqualsConstraint* Class, which is a Specific Implementation of the *Constraint* Class that uses the Relationship `A == B` *(This is defined in the Constraint Definition File as "A = B")*
        - `GreaterThanConstraint.java`: Defines the *GreaterThanConstraint* Class, which is a Specific Implementation of the *Constraint* Class that uses the Relationship `A > B` *(This is defined in the Constraint Definition File as "A > B")*
-       - `LessThanConstraint.java`: Defines the *LessThanCosntraint* Class, which is a Specific Implementation of the *Constraint* Class that uses the Relationship `A < B` *(This is defined in the Constraint Definition File as "A < B")*
+       - `LessThanConstraint.java`: Defines the *LessThanConstraint* Class, which is a Specific Implementation of the *Constraint* Class that uses the Relationship `A < B` *(This is defined in the Constraint Definition File as "A < B")*
        - `NotEqualsConstraint.java`: Defines the *NotEqualsConstraint* Class, which is a Specific Implementation of the *Constraint* Class that uses the Relationship `A != B` *(This is defined in the Constraint Definition File as "A ! B")*
     - Input: Contains all Classes required to Read Implementation Specific Data
        - `ArgumentException.java`: Defines the *ArgumentException* Class, which is Thrown when an Invalid Argument is provided on the Command Line
