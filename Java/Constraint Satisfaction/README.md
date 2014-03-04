@@ -65,7 +65,7 @@ The Program will Output each Step in the following Format: `#) <Variable> = <Val
        - `Solver.java`: Defines the *Solver* Class, which solves Constraint Satisfaction Problems without the use of any Consistency Procedures
     - `Configuration.java`: Defines the *Configuration* Class, which holds static Information about the Program's Configuration
     - `ConstrainedVariable.java`: Defines the *ConstrainedVariable* Class, which is an Abstract Representation of a Variable that may have Constraints applied upon it
-    - `Constraint.java`: Defines the *Constraint* Class, which is an Abstract Representation of a Constraint that may be replaced upon a Variable, and is of the form `<Variable1> <Operator> <Variable2>`
+    - `Constraint.java`: Defines the *Constraint* Class, which is an Abstract Representation of a Constraint that may be placed upon a Variable, and is of the form `<Variable1> <Operator> <Variable2>`
     - `DomainException.java`: Defines the *DomainException* Class, which is Thrown when a Variable is assigned a Value outside of its Domain
     - `DomainValue.java`: Defines the *DomainValue* Class, which is an Abstract Representation of a Value that may be assigned to a Variable
     - `ParticipantException.java`: Defines the *ParticipantException* Class, which is Thrown when a Constraint is prompted for a Variable's Attributes in which the Variable is not a Participant of the Constraint
