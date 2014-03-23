@@ -22,4 +22,10 @@ public class ContradictionException extends Exception
 	{
 		super(message);
 	}
+
+	// Object Constructor
+	public ContradictionException(Object object)
+	{
+		super(object.toString());
+	}
 }

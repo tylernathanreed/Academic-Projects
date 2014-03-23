@@ -7,7 +7,7 @@
 package Knowledge;
 
 //* Libraries *//
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -16,40 +16,26 @@ import java.util.TreeSet;
 public class Clause implements Comparable<Clause>
 {
 	//* Class Variables *//
-	SortedSet<Literal> originalLiterals;
+	List<Literal> originalLiterals;
 	SortedSet<Literal> currentLiterals;
 
 	//* Constructors *//
 	// Creates a Clause with a List of Literals
-	public Clause(List<Literal> literals) throws ContradictionException
+	public Clause(List<Literal> literals)
 	{
-		originalLiterals = new TreeSet<Literal>(literals);
-
-		// Make sure the Clause is free of Contradictions
-		if(hasContradiction())
-			throw new ContradictionException("Clauses cannot contain Contradictions!");
-
-		// Use a Copy for the Current Literals
+		originalLiterals = new ArrayList<Literal>(literals);
 		currentLiterals = new TreeSet<Literal>(literals);
 
-		for(Literal literal : originalLiterals)
-			currentLiterals.add(literal.getCopy());
+		simplify();
 	}
 
 	// Creates a Clause with a Sorted Set of Literals
-	public Clause(SortedSet<Literal> literals) throws ContradictionException
+	public Clause(SortedSet<Literal> literals)
 	{
-		originalLiterals = new TreeSet<Literal>(literals);
-
-		// Make sure the Clause is free of Contradictions
-		if(hasContradiction())
-			throw new ContradictionException("Clauses cannot contain Contradictions!");
-
-		// Use a Copy for the Current Literals
+		originalLiterals = new ArrayList<Literal>(literals);
 		currentLiterals = new TreeSet<Literal>(literals);
 
-		for(Literal literal : originalLiterals)
-			currentLiterals.add(literal.getCopy());
+		simplify();
 	}
 
 	//* Clause Methods *//
@@ -81,88 +67,44 @@ public class Clause implements Comparable<Clause>
 	}
 
 	// Removes all False and Duplicate Literals from the Current Information
-	public int simplify()
+	public void simplify()
 	{
-		// Determine the Number of Removed Literals
-		int count = 0;
+		// Create a Set to Track and Remove Literals
+		SortedSet<Literal> knownLiterals = new TreeSet<Literal>();
+		SortedSet<Literal> removeLiterals = new TreeSet<Literal>();
 
 		// Cycle through all Literals
 		for(Literal literal : currentLiterals)
 		{
-			// Remove False Literals
-			if(literal.isVariableAssigned())
-				if(!literal.getValue())
-				{
-					currentLiterals.remove(literal);
-					count++;
-				}
+			// Check if the Literal is already Known
+			if(knownLiterals.contains(literal))
+				removeLiterals.add(literal);
+			else
+				knownLiterals.add(literal);
 
-			// Remove Duplicate Literals
-			for(Literal otherLiteral : currentLiterals)
+			// Create the Inverse of the Literal
+			Literal inverse = new Literal(literal.getVariable(), !literal.isNegated());
+
+			// Check if the Inverse Literal is Known
+			if(knownLiterals.contains(inverse))
 			{
-				// Determine whether or not the Loop has Intersected
-				boolean self = false;
-
-				// Check for Duplicate Literal
-				if(literal.equals(otherLiteral))
-				{
-					// Make sure the Literals aren't the same Literal from the Different Loops
-					if(!self)
-						self = true;
-					else
-					{
-						// At this point, a second Duplicate Literal has been Found
-						currentLiterals.remove(otherLiteral);
-						count++;
-					}
-				}
+				removeLiterals.add(literal);
+				removeLiterals.add(inverse);
 			}
 		}
 
-		return count;
-	}
+		// Remove the Marked Literals
+		currentLiterals.removeAll(removeLiterals);
 
-	// Returns whether or not there is a Contradiction in the Original Information
-	public boolean hasContradiction()
-	{
-		return getContradictions().size() > 0;
-	}
-
-	// Returns a Subset of the Clause that contains Contradictions
-	public SortedSet<Literal> getContradictions()
-	{
-		// Determine the Initial Contradictions
-		SortedSet<Literal> contradictions = new TreeSet<Literal>();
-
-		// Cycle through each Literal
-		for(Literal literal : originalLiterals)
+		// Check if only one Literal Remains
+		if(currentLiterals.size() == 1 && !isAssigned())
 		{
-			// Check if the Literal is a known Contradiction
-			if(contradictions.contains(literal))
-				continue;
+			// Determine the Remaining Literal
+			Literal literal = currentLiterals.first();
 
-			// Compare each Literal to the Others
-			for(Literal otherLiteral : originalLiterals)
-			{
-				// Ignore Self
-				if(literal.equals(otherLiteral))
-					continue;
-
-				// Check if the Other Literal is a known Contradiction
-				if(contradictions.contains(otherLiteral))
-					continue;
-
-				// Check if the Literals are Inverses
-				if(literal.isInverse(otherLiteral))
-				{
-					// Add Both Literals to the Set of Contradictions
-					contradictions.add(literal);
-					contradictions.add(otherLiteral);
-				}
-			}
+			// Assign the Variable a Value
+			literal.getVariable().setValue(!literal.isNegated());
 		}
-
-		return contradictions;
 	}
 
 	//* Literal Methods *//
@@ -177,7 +119,7 @@ public class Clause implements Comparable<Clause>
 	}
 
 	// Returns the Original Set of Literals
-	public SortedSet<Literal> getOriginalLiterals()
+	public List<Literal> getOriginalLiterals()
 	{
 		return originalLiterals;
 	}
@@ -211,37 +153,35 @@ public class Clause implements Comparable<Clause>
 	// Returns a String Representation of the Clause
 	public String toString()
 	{
-		return originalLiterals.toString();
+		// Perform an Intersection on Current and Original
+		List<Literal> stringLiterals = new ArrayList<Literal>();
+		stringLiterals.addAll(originalLiterals);
+		stringLiterals.retainAll(currentLiterals);
+
+		// Determine the Literal String
+		String str = stringLiterals.toString();
+
+		return str.substring(1, str.length() - 1);
 	}
 
 	//* Comparable Methods *//
 	// Returns an Integer (-1, 0, 1) representing a Comparison
 	public int compareTo(Clause clause)
 	{
-		// Compare by Literals
-		Iterator<Literal> iterator = originalLiterals.iterator();
-		Iterator<Literal> otherIterator = clause.getOriginalLiterals().iterator();
-
-		while(iterator.hasNext())
+		if(currentLiterals.containsAll(clause.getCurrentLiterals()))
 		{
-			// Check if the Other Clause still has a remaining Domain
-			if(!otherIterator.hasNext())
+			if(clause.getCurrentLiterals().containsAll(currentLiterals))
+				return 0;
+			else
 				return 1;
-
-			// Determine the Next Literals
-			Literal literal = iterator.next();
-			Literal otherLiteral = otherIterator.next();
-
-			// Compare the two Literals
-			if(!literal.equals(otherLiteral))
-				return literal.compareTo(otherLiteral);
 		}
-
-		// Check if this Clause ran out of Literals
-		if(otherIterator.hasNext())
+		else
 			return -1;
+	}
 
-		// Clauses are the same Size, and all Literals match
-		return 0;
+	// Returns whether or another Clause is Equal To this Clause
+	public boolean equals(Object object)
+	{
+		return compareTo((Clause) object) == 0;
 	}
 }

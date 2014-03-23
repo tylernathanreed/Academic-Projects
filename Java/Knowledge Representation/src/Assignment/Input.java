@@ -12,10 +12,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
 import Knowledge.Clause;
-import Knowledge.ContradictionException;
 import Knowledge.Literal;
 import Knowledge.Variable;
 
@@ -28,16 +28,22 @@ public class Input
 	private int currentLine = 0;
 
 	// Knowledge Base Variables
-	private SortedSet<Clause> clauses;
-	private SortedSet<Variable> variables;
+	private List<Clause> clauses;
+	private List<Variable> variables;
+
+	// Hash for Unique Variables
+	private Hashtable<String, Variable> names;
 
 	//* Constructor *//
 	// File Path Constructor
 	public Input(String filepath)
 	{
 		// Create the List of Clauses and Variables
-		clauses = new TreeSet<Clause>();
-		variables = new TreeSet<Variable>();
+		clauses = new LinkedList<Clause>();
+		variables = new LinkedList<Variable>();
+
+		// Create the Unique Variable Hash
+		names = new Hashtable<String, Variable>();
 
 		try
 		{
@@ -58,13 +64,13 @@ public class Input
 
 	//* Knowledge Base Methods *//
 	// Returns the Set of Clauses
-	public SortedSet<Clause> getClauses()
+	public List<Clause> getClauses()
 	{
 		return clauses;
 	}
 
 	// Returns the Set of Variables
-	public SortedSet<Variable> getVariables()
+	public List<Variable> getVariables()
 	{
 		return variables;
 	}
@@ -84,7 +90,7 @@ public class Input
 		String[] components = line.split(" ");
 
 		// Determine each Literal
-		SortedSet<Literal> literals = new TreeSet<Literal>();
+		List<Literal> literals = new LinkedList<Literal>();
 
 		for(int i = 0; i < components.length; i++)
 		{
@@ -97,39 +103,39 @@ public class Input
 			// Determine the Name of the Variable
 			String name = component.replace("~", "");
 
-			// Create the Variable for the Literal
-			Variable variable = new Variable(name);
+			// Determine the Variable for the Literal
+			Variable variable;
 
-			// Add the Variable to the Set of Variables
-			if(!variables.contains(variable))
-				variables.add(variable);
+			// Check if the Name is Unique
+			if(names.containsKey(name))
+				variable = names.get(name);
+			else
+			{
+				variable = new Variable(name);
+				names.put(name, variable);
+			}
+
+			// Add the Variable to the List of Variables
+			variables.add(variable);
 
 			// Create the Literal
 			Literal literal = new Literal(variable, negated);
 
-			// Add the Literal to the Set of Literals
+			// Add the Literal to the List of Literals
 			if(!literals.contains(literal))
 				literals.add(literal);
-			
 		}
 
 		// Create the Clause
-		Clause clause = null;
-
-		try
-		{
-			clause = new Clause(literals);
-			System.out.println("[Input] Read Clause: " + clause);
-		}
-		catch(ContradictionException ex)
-		{
-			System.err.println("Invalid Clause on Line " + currentLine + ": Contains Contradiction");
-			System.exit(0);
-		}
+		Clause clause = new Clause(literals);
 
 		// Add the Clause to the Set of Clauses
 		if(clause != null && !clauses.contains(clause))
 			clauses.add(clause);
+		else
+			System.out.println("[Input] Ignoring Clause: " + clause);
+
+		//System.out.println("[Input] Read Clause: " + clause);
 
 		return clause;
 	}

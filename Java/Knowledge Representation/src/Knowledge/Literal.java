@@ -95,40 +95,8 @@ public class Literal implements Comparable<Literal>
 			return 1;
 		else if(!negated && otherNegated)
 			return -1;
-		
-		// Determine the Assignment Status of the Literal and Other Literal
-		boolean assigned = isVariableAssigned();
-		boolean otherAssigned = otherLiteral.isVariableAssigned();
-
-		// Sort by Assignment Status Third
-		if(assigned && !otherAssigned) // Assignment is Greater
-			return 1;
-		else if(!assigned && otherAssigned) // Unassignment is Lesser
-			return -1;
-		else if(!assigned && !otherAssigned) // Both Unassigned are Equal
-			return 0;
-
-		// Determine the Value of the Literal and Other Literal
-		boolean value = getValue();
-		boolean otherValue = otherLiteral.getValue();
-
-		// Sort by Value Fourth
-		if(value == otherValue) // Same Value
-			return 0;
-		else if(value) // True is Greater
-			return 1;
-		else // False is Lesser
-			return -1;
-	}
-
-	// Returns whether or not this Literal is Equal to Another
-	public boolean equals(Object object)
-	{
-		// Check if other Object is a Literal
-		if(object.getClass() == this.getClass())
-			return compareTo((Literal) object) == 0;
 		else
-			return super.equals(object);
+			return 0;
 	}
 
 	//* Conversion Methods *//
@@ -136,11 +104,5 @@ public class Literal implements Comparable<Literal>
 	public String toString()
 	{
 		return negated ? ("~" + variable) : variable.toString();
-	}
-
-	// Returns a Copy of the Literal
-	public Literal getCopy()
-	{
-		return new Literal(variable, negated);
 	}
 }

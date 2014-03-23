@@ -96,44 +96,8 @@ public class Variable implements Comparable<Variable>
 	// Returns an Integer (-1, 0, 1) representing a Comparison
 	public int compareTo(Variable otherVariable)
 	{
-		// Determine the Name of the Other Variable
-		String otherName = otherVariable.getName();
-
-		// Sort by Name First
-		if(!name.equals(otherName))
-			return name.compareTo(otherName);
-
-		// Determine the Assignment Status of the Other Variable
-		boolean otherAssigned = otherVariable.isAssigned();
-
-		// Sort by Assignment Status Second
-		if(assigned && !otherAssigned) // Assignment is Greater
-			return 1;
-		else if(!assigned && otherAssigned) // Unassignment is Lesser
-			return -1;
-		else if(!assigned && !otherAssigned) // Both Unassigned are Equal
-			return 0;
-
-		// Determine the Value of the Other Variable
-		boolean otherValue = otherVariable.getValue();
-
-		// Sort by Value Third
-		if(value == otherValue) // Same Value
-			return 0;
-		else if(value) // True is Greater
-			return 1;
-		else // False is Lesser
-			return -1;
-	}
-
-	// Returns whether or not this Variable is Equal to Another
-	public boolean equals(Object object)
-	{
-		// Check if other Object is a Variable
-		if(object.getClass() == this.getClass())
-			return compareTo((Variable) object) == 0;
-		else
-			return super.equals(object);
+		// Compare by Name
+		return name.compareTo(otherVariable.getName());
 	}
 
 	//* Conversion Methods *//

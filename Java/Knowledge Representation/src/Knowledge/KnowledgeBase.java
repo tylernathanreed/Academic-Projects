@@ -10,7 +10,11 @@ package Knowledge;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.Stack;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 //* Class *//
@@ -18,20 +22,26 @@ public class KnowledgeBase
 {
 	//* Class Methods *//
 	SortedSet<Variable> variables;
-	SortedSet<Clause> originalClauses;
-	SortedSet<Clause> currentClauses;
-	Hashtable<Clause, List<Integer>> derivationIndeces;
+	List<Clause> originalClauses;
+	List<Clause> currentClauses;
+	Map<Clause, SortedSet<Integer>> indeces;
+	SortedSet<Integer> contradictionIndex;
 
 	//* Constructor *//
 	// Creates a Knowledge Base with a Set of Clauses
-	public KnowledgeBase(SortedSet<Clause> clauses) throws ContradictionException
+	public KnowledgeBase(List<Clause> clauses) throws ContradictionException
 	{
 		// Determine the Set of Original Clauses
 		originalClauses = clauses;
 
+		// Initialize the Set of Derived Clauses
+		//derivedClauses = new ArrayList<Clause>();
+
 		// Determine the Set of Current Clauses
-		currentClauses = new TreeSet<Clause>();
-		currentClauses.addAll(clauses);
+		currentClauses = new ArrayList<Clause>();
+
+		for(Clause clause : clauses)
+			currentClauses.add(clause);
 
 		// Determine the Set of Variables
 		variables = new TreeSet<Variable>();
@@ -40,7 +50,7 @@ public class KnowledgeBase
 		for(Clause clause : clauses)
 		{
 			// Determine the Set of Literals
-			SortedSet<Literal> literals = clause.getOriginalLiterals();
+			List<Literal> literals = clause.getOriginalLiterals();
 
 			// Loop through each Literal in each Clause
 			for(Literal literal : literals)
@@ -54,11 +64,12 @@ public class KnowledgeBase
 			}
 		}
 
-		System.out.println("[Knowledge Base] Known Variables: " + variables);
-		System.out.println("[Knowledge Base] Known Clauses: " + clauses);
+		// Simplify All Clauses
+		for(Clause clause : clauses)
+			clause.simplify();
 
 		// Create the Derivation Hash Table
-		derivationIndeces = new Hashtable<Clause, List<Integer>>();
+		indeces = new Hashtable<Clause, SortedSet<Integer>>();
 
 		// Make sure there is not a Contradiction
 		completeKnowledgeBase();
@@ -68,116 +79,36 @@ public class KnowledgeBase
 	// Derives new Clauses from the existing Knowledge Base
 	public SortedSet<Clause> deriveNewClauses() throws ContradictionException
 	{
-		// Determine the Initial Set of new Clauses
-		SortedSet<Clause> derivedClauses = new TreeSet<Clause>();
-
-		System.out.println("[Knowledge Base] Deriving New Clauses:");
+		// Set the Resolution Variables
+		Resolution.setClauses(currentClauses);
+		Resolution.clearDeductions();
 
 		// Cycle through all Variables
 		for(Variable variable : variables)
-		{
-			System.out.println(" -> Checking Variable: " + variable);
+			new Resolution(variable);
 
-			// Create the Positive and Negative Literals for the Variable
-			Literal positiveLiteral = new Literal(variable, false);
-			Literal negativeLiteral = new Literal(variable, true);
+		// Wait for Threads to Finish
+		Resolution.joinAllThreads();
 
-			// Determine the Initial Set of Positive and Negative Clauses
-			SortedSet<Clause> positiveClauses = new TreeSet<Clause>();
-			SortedSet<Clause> negativeClauses = new TreeSet<Clause>();
+		// Add Derived Clauses
+		currentClauses.addAll(Resolution.getDeductions());
+		indeces.putAll(Resolution.getIndeces());
 
-			// Search Clauses for the Positive Literal
-			for(Clause clause : currentClauses)
-				if(clause.contains(positiveLiteral))
-					positiveClauses.add(clause);
-				else if(clause.contains(negativeLiteral))
-					negativeClauses.add(clause);
+		// Add Termination Index
+		if(Resolution.getTerminationIndex() != null)
+			contradictionIndex = Resolution.getTerminationIndex();
 
-			// Track the Positive Clause Index
-			int positiveIndex = 0;
-
-			System.out.println("    -> Positive Clauses: " + positiveClauses);
-			System.out.println("    -> Negative Clauses: " + negativeClauses);
-
-			// Create new Clauses using the Restitution Rule
-			for(Clause positiveClause : positiveClauses)
-			{
-				// Increase the Positive Index
-				positiveIndex++;
-
-				// Determine the Initial Literals in the Positive Clause
-				SortedSet<Literal> positiveLiterals = positiveClause.getOriginalLiterals();
-
-				// Track the Negative Clause Index
-				int negativeIndex = 0;
-
-				// Create a New Clause for each Negative Clause
-				for(Clause negativeClause : negativeClauses)
-				{
-					// Increase the Negative Index
-					negativeIndex++;
-
-					// Determine the Initial Literals in the Negative Clause
-					SortedSet<Literal> negativeLiterals = negativeClause.getOriginalLiterals();
-
-					// Join the two Sets for a New Clause
-					SortedSet<Literal> newLiterals = new TreeSet<Literal>();
-					newLiterals.addAll(positiveLiterals);
-					newLiterals.addAll(negativeLiterals);
-
-					// Remove the Positive and Negative Literal Variable
-					newLiterals.remove(positiveLiteral);
-					newLiterals.remove(negativeLiteral);
-
-					// Attempt to create a new Clause
-					try
-					{
-						// Construct a Clause with the new Literals
-						Clause newClause = new Clause(newLiterals);
-
-						// Make sure the Clause is Unique
-						if(hasClause(newClause) || derivedClauses.contains(newClause))
-							continue;
-
-						// Add the Clause to the Derived Set
-						derivedClauses.add(newClause);
-
-						// Track the Clause Indeces
-						List<Integer> indeces = new ArrayList<Integer>(2);
-						indeces.add(positiveIndex);
-						indeces.add(negativeIndex);
-
-						// Map the Indeces with the Clause
-						derivationIndeces.put(newClause, indeces);
-
-						System.out.println("       -> Derived Clause: " + newClause);
-					}
-					catch(ContradictionException ex)
-					{
-						String message = "Knowledge Base contains derivable Contradiction '" +
-										 positiveClause + negativeClause + " -> " + newLiterals + "'";
-
-						throw new ContradictionException(message);
-					}
-				}
-			}
-		}
-
-		System.out.println("[Knowledge Base] Derived " + derivedClauses.size() + " New Clauses");
-		return derivedClauses;
+		return Resolution.getDeductions();
 	}
 
 	// Completes the Knowledge Base by Deriving all possible Clauses
 	private void completeKnowledgeBase() throws ContradictionException
 	{
 		// Derive Clauses until no new Clauses can be Derived
-		SortedSet<Clause> derivedClauses = deriveNewClauses();
+		SortedSet<Clause> clauses = deriveNewClauses();
 
-		while(derivedClauses.size() > 0)
-		{
-			currentClauses.addAll(derivedClauses);
-			derivedClauses = deriveNewClauses();
-		}
+		while(clauses.size() > 0 && contradictionIndex == null)
+			clauses = deriveNewClauses();
 	}
 
 	//* Clause Methods *//
@@ -187,12 +118,26 @@ public class KnowledgeBase
 		return currentClauses.contains(clause);
 	}
 
+	// Returns the Number of Clauses in the Knowledge Base
+	public int getClauseCount()
+	{
+		return currentClauses.size();
+	}
+
 	//* Conversion Methods *//
 	// Returns a String Representation of the Knowledge Base
 	public String toString()
 	{
+		// Convert each Clause to a String using the Form:
+		// X) Clause {Left, Right}
+		// Where X is the Clause Index, and Left/Right are Parents
+		// from the Resolution Rule.
+
+		// In the Event of a Contradiction, only Clauses that
+		// participated in the Contradiction should be Listed.
+
 		// Determine the Initial Representation
-		String result = "";
+		List<String> clauses = new ArrayList<String>(currentClauses.size() + 1);
 
 		// Track the Clause Index
 		int index = 0;
@@ -200,24 +145,96 @@ public class KnowledgeBase
 		// Cycle through each Clause
 		for(Clause clause : currentClauses)
 		{
+			// Stop at Upper Contradiction Index
+			if(contradictionIndex != null)
+				if(index >= contradictionIndex.last())
+					break;
+
 			// Increase the Clause Index
 			index++;
 
-			// Annex the Clause Index
-			result += index + ") ";
+			// Determine the Initial Clause String
+			String result = index + ") ";
 
 			// Annex the Clause
-			result += clause;
+			result += clause + " ";
 
 			// Annex the Derivation (if any)
-			if(derivationIndeces.containsKey(clause))
-				result += derivationIndeces.get(clause);
+			if(indeces.containsKey(clause))
+			{
+				String str = indeces.get(clause).toString();
+				result += "{" + str.substring(1, str.length() - 1) + "}";
+			}
 			else
 				result += "{}";
 
-			// Delimit the Clauses
-			result += "\n";
+			// Add the Result to the List
+			clauses.add(index - 1, result);
 		}
+
+		// Add Contradiction Indeces
+		if(contradictionIndex != null)
+		{
+			String str = contradictionIndex.toString();
+
+			clauses.add(index, (index + 1) + ") False {" + str.substring(1, str.length() - 1) + "}");
+		}
+
+		// Convert the Array List to a String Output
+		String result = "";
+
+		// Use all Elements if no Contradiction Occurred
+		if(contradictionIndex == null)
+			for(String str : clauses)
+				result += str + "\n";
+		else
+		{
+			// Create a Sorted Hash to purge insignificant Clauses
+			// while keeping the Output Sorted
+			SortedMap<Integer, String> output = new TreeMap<Integer, String>();
+
+			// Use another List to Determine which Clauses need Derivation Expansion
+			Stack<String> expand = new Stack<String>();
+
+			// Push the Contradiction (Final) Clause
+			expand.push(clauses.get(clauses.size() - 1));
+
+			// Expand all Clauses
+			while(!expand.isEmpty())
+			{
+				// Determine the Next Clause
+				String clause = expand.pop();
+
+				// Determine the Index of the Clause
+				index = Integer.valueOf(clause.substring(0, clause.indexOf(")")));
+
+				// Add it to the Output
+				output.put(index, clause);
+
+				// Determine the Indeces in the Clause
+				String substr = clause.substring(clause.indexOf("{") + 1, clause.indexOf("}"));
+
+				if(substr == null || substr.equals(""))
+					continue;
+
+				String[] indeces = substr.split(", ");
+
+				// Determine the Lower and Upper Indeces
+				int lower = Integer.valueOf(indeces[0]);
+				int higher = Integer.valueOf(indeces[1]);
+
+				// Push the Derivation Clauses
+				expand.push(clauses.get(lower - 1));
+				expand.push(clauses.get(higher - 1));
+			}
+
+			// Convert the Sorted Output to a String
+			for(Map.Entry<Integer, String> entry : output.entrySet())
+				result += entry.getValue() + "\n";
+		}
+
+		// Add Final Clause Count
+		result += "Clause Count: " + currentClauses.size();
 
 		return result;
 	}
