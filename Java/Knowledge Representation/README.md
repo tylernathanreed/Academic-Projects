@@ -1,10 +1,10 @@
 Knowledge Representation
 ========================
 
-**Compile:**
+**Compile:**<br>
 No compiling is necessary. Download the contents in the *exe* folder. Should you really wish to compile this project yourself, import the project into the Eclipse IDE and export it into a Runnable Jar.
 
-**Execution:**
+**Execution:**<br>
 Run the `KnowledgeRepresentation.jar` File with the following command:<br>
 `java -jar <Jar File> -i <Input File Path> [-o <Output File Path>]`
 
@@ -49,7 +49,7 @@ Note the use of `var1 var2 var3 ...` and `~var1 ~var2 ~var3 ... `. These define 
 
 A Clause of the form `var1 implies (->) var2 var3 ...` may be represented as `~var1 var2 var3 ...` as `A -> B` and `~A | B` are equivalent encodings. Given that Clauses require Disjunction, the latter encoding must be used.
 
-**Knowledge Reasoning:**
+**Knowledge Reasoning:**<br>
 The purpose of this Program is to be able to derive new information from a predefined set of information. This is done by using the Resolution Rule, which states:
 
     if (L[1] | L[2] | ... | L[k]) and (~L[k] | L[k+1] | ... | L[m])
@@ -66,43 +66,20 @@ These Clauses may be translated as:
  - 6) A Weekday implies that it is not Sunday or Satuday
  - 7) A Weekend implies that it is not a Weekday *(It cannot be both a Weekend and a Weekday)*
 
-**Implementation:**
+**Implementation:**<br>
 Given the large state space that is quickly derived from the initial Clauses, this Program has been Multi-Threaded, and thus will not yield the same result each time. The Program will always accurately tell you whether or not a Contradiction exists within the Knowledge Base, but the exact route to get there, as well as additional derived information, may vary per execution.
 
 Similarly, to help increase readibility of the Output, if a Contradiction is detected, only the Clauses that participated in the derivation will be included.
 
-**File Descriptions:**
+**File Descriptions:**<br>
  - Assignment: Contains Implementation Specific Classes
-    - Constraints: Contains specific Constraint Implementations
-       - `EqualsConstraint.java`: Defines the *EqualsConstraint* Class, which is a Specific Implementation of the *Constraint* Class that uses the Relationship `A == B` *(This is defined in the Constraint Definition File as "A = B")*
-       - `GreaterThanConstraint.java`: Defines the *GreaterThanConstraint* Class, which is a Specific Implementation of the *Constraint* Class that uses the Relationship `A > B` *(This is defined in the Constraint Definition File as "A > B")*
-       - `LessThanConstraint.java`: Defines the *LessThanConstraint* Class, which is a Specific Implementation of the *Constraint* Class that uses the Relationship `A < B` *(This is defined in the Constraint Definition File as "A < B")*
-       - `NotEqualsConstraint.java`: Defines the *NotEqualsConstraint* Class, which is a Specific Implementation of the *Constraint* Class that uses the Relationship `A != B` *(This is defined in the Constraint Definition File as "A ! B")*
-    - Input: Contains all Classes required to Read Implementation Specific Data
-       - `ArgumentException.java`: Defines the *ArgumentException* Class, which is Thrown when an Invalid Argument is provided on the Command Line
-       - `ConstraintReader.java`: Defines the *ConstraintReader* Class, which is responsible for being able to read and interpret a Constraint Definition File
-       - `FileFormatException.java`: Defines the *FileFormatException* Class, which is Thrown when any specified File in the Program is not formatted correctly
-       - `Input.java`: Defines the *Input* Class, which handles all forms of Input from the Command Line
-       - `VariableReader.java`: Defines the *VariableReader* Class, which is responsible for being able to read and interpret a Variable Definition File
-    - `Letter.java`: Defines the *Letter* Class, which is a Specific Implementation of the *ConstrainedVariable* Class that uses a Single Character to represent a Variable *(This is defined in the Variable Definition File as `A: <Domain>`)*
-    - `LetterValue.java`: Defines the *LetterValue* Class, which is a Specific Implementation of the *DomainValue* Class that uses Integers as Domain Values *(This is defined in the Variable Definition File as `<Variable> 1 2 3 4 ...`)*
+    - `Input.java`: Defines the *Input* Class, which is responsible for being able to read a Clause Definition File
     - `Main.java`: Defines the *Main* Class, which runs the Program and interprets the Command Line
- - ConstraintSatisfaction: Contains Abstract Computational Classes
-    - Ordering: Contains all Abstract Classes that deal with Variable and Value Ordering
-       - `LCVOrdering.java`: Defines the *LCVOrdering* Class, which handles the Value Ordering of its Variable by using the Least-Constraining Value Heuristic
-       - `LCVOrderingFactory.java`: Defines the *LCVOrderingFactory* Class, which handles the creation of *LCVOrdering* Classes given a specified *ConstrainedVariable* Object
-       - `LCVPair.java`: Defines the *LCVPair* Class, which is a Support Class for the *LCVOrdering* Class as it contains the Value and its Restricted Domain Size
-       - `MCVOrdering.java`: Defines the *MCVOrdering* Class, which handles the Variable Ordering of all Variables by using the Most-Constrained Variable Heuristic
-       - `ValueOrdering.java`: Defines the *ValueOrdering* Class, which is an Abstract Representation of a Value-Ordering Heuristic for a specified Variable
-       - `ValueOrderingFactory.java`: Defines the *ValueOrderingFactory* Class, which is an Abstract Representation of a Value-Ordering Factory that handles the creation of *ValueOrdering* Classes given a specified *ConstrainedVariable* Object
-       - `VariableOrdering.java`: Defines the *VariableOrdering* Class, which is an Abstract Reprenstation of a Variable-Ordering Heuristic
-    - Solver: Contains all Classes that deal with Solving the Abstract Constraint Satisfaction Problem
-       - `AbstractSolver.java`: Defines the *AbstractSolver* Class, which is an Abstract Representation of a Constraint Satisfaction Solver
-       - `FCSolver.java`: Defines the *FCSolver* Class, which solves Constraint Satisfaction Problems using the Forward-Checking Consistency Procedure
-       - `Solver.java`: Defines the *Solver* Class, which solves Constraint Satisfaction Problems without the use of any Consistency Procedures
-    - `Configuration.java`: Defines the *Configuration* Class, which holds static Information about the Program's Configuration
-    - `ConstrainedVariable.java`: Defines the *ConstrainedVariable* Class, which is an Abstract Representation of a Variable that may have Constraints applied upon it
-    - `Constraint.java`: Defines the *Constraint* Class, which is an Abstract Representation of a Constraint that may be placed upon a Variable, and is of the form `<Variable1> <Operator> <Variable2>`
-    - `DomainException.java`: Defines the *DomainException* Class, which is Thrown when a Variable is assigned a Value outside of its Domain
-    - `DomainValue.java`: Defines the *DomainValue* Class, which is an Abstract Representation of a Value that may be assigned to a Variable
-    - `ParticipantException.java`: Defines the *ParticipantException* Class, which is Thrown when a Constraint is prompted for a Variable's Attributes in which the Variable is not a Participant of the Constraint
+    - `Output.java`: Defines the *Output* Class, which is responsible for being able to write to an Output File
+ - Knowledge: Contains Abstract Computational Classes
+    - `Clause.java`: Defines the *Clause* Class, which represents a set of Literals in Disjunction
+    - `ContradictionException.java`: Defines the *ContradictionException* Class, which is to be thrown when a Logical Contradiction is detected
+    - `KnowledgeBase.java`: Defines the *KnowledgeBase* Class, which represents a set of Clauses in Conjunction and is capable of deriving new Clauses using the Resolution Rule
+    - `Literal.java`: Defines the *Literal* Class, which represents a Variable that is either Positive or Negative *(Negated)*
+    - `Resolution.java`: Defines the *Resolution* Class, which is a Threaded implementation of the Resolution Rule that is responsible for deriving new Clauses given a hook Variable *(L[k])*
+    - `Variable.java`: Defines the *Variable* Class, which represents an assignable Variable that uses a String to represent its Name
