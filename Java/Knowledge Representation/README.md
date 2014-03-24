@@ -8,7 +8,7 @@ No compiling is necessary. Download the contents in the *exe* folder. Should you
 Run the `KnowledgeRepresentation.jar` File with the following command:<br>
 `java -jar <Jar File> -i <Input File Path> [-o <Output File Path>]`
 
-**Flags:**
+**Flags:**<br>
 The following Flags serve the specified Purpose:
  - `-jar <Jar File>` : Tells Java to run the specified Jar File *(KnowledgeRepresentation.jar)*
  - `-i <Input File Path>` : Tells the Program to use the specified Clause Definition File *(./input.txt)*
