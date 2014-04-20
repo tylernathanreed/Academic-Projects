@@ -64,7 +64,7 @@ When used together an Enumeration Algorithm can be formed. See the `parseQuery` 
     - `Input.java`: Defines the *Input* Class, which is responsible for being able to read a Bayes Net File
     - `Main.java`: Defines the *Main* Class, which runs the Program and interprets the Command Line
     - `FileFormatException.java`: Defines the *FileFormatException* Class, which is thrown when a File is found to be Formatted Incorrectly
- - Knowledge: Contains General Computational Classes
+ - Probability: Contains General Computational Classes
     - `BayesNet.java`: Defines the *BayesNet* Class, which represents the relationship between Probabilities, and is responsible for parsing Queries
     - `Probability.java`: Defines the *Probability* Class, which represents a Probability
     - `Query.java`: Defines the *Query* Class, which represents a Query and is responsible for being able to interpret a Query String
