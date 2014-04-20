@@ -31,21 +31,21 @@ The Final Output will be the Value of the Query and its Inverse.
 **Bayes Net File:**<br>
 A Bayes Net File has a Formal Definition of:
 
-  <file> ::= <var-prob> (<newline> <newline> <var-prob>)*
-  <var-prob> ::= <prior-prob> | <prob-table>
-  <prior-prob> ::= "P(" <var> ") = " <decimal>
-  <prob-table> ::= <header> <newline> <horiz-sep> <newline>
-  <entry-list>
-  <header> ::= <var> (" " <var>)* " | " <var>
-  <horiz-sep> ::= "-"+ "|" "-"+
-  <entry-list> ::= <table-entry> (<newline> <table-entry>)+
-  <table-entry> ::= <truth-symb> (" " <truth-symbol>)* " | "
-  <decimal>
-  <truth-symbol> ::= "t" | "f"
-  <decimal> ::= "0" | "0"? "." <digit>+
-  <digit> ::= "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
-  <var> ::= "A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"
-  <newline> ::= "\n"
+    <file> ::= <var-prob> (<newline> <newline> <var-prob>)*
+    <var-prob> ::= <prior-prob> | <prob-table>
+    <prior-prob> ::= "P(" <var> ") = " <decimal>
+    <prob-table> ::= <header> <newline> <horiz-sep> <newline>
+    <entry-list>
+    <header> ::= <var> (" " <var>)* " | " <var>
+    <horiz-sep> ::= "-"+ "|" "-"+
+    <entry-list> ::= <table-entry> (<newline> <table-entry>)+
+    <table-entry> ::= <truth-symb> (" " <truth-symbol>)* " | "
+    <decimal>
+    <truth-symbol> ::= "t" | "f"
+    <decimal> ::= "0" | "0"? "." <digit>+
+    <digit> ::= "0"|"1"|"2"|"3"|"4"|"5"|"6"|"7"|"8"|"9"
+    <var> ::= "A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"
+    <newline> ::= "\n"
 
 If you don't understand what that means, look at the formatting of the Examples. If you format a File incorrectly, the Program will be sure to tell you what you did wrong.
 
