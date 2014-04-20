@@ -29,8 +29,8 @@ public class Main
 		Input input = null;
 
 		try { input = new Input(bayesNetPath); }
-		catch(FileNotFoundException ex) { System.err.println("Unable to find File: " + bayesNetPath); return;}
-		catch(IOException e) { System.err.println("Unable to read File: " + bayesNetPath); return;}
+		catch(FileNotFoundException ex) { System.out.println("Unable to find File: " + bayesNetPath); return;}
+		catch(IOException e) { System.out.println("Unable to read File: " + bayesNetPath); return;}
 
 		// Determine the Bayes Net
 		BayesNet bayesNet = input.getBayesNet();
@@ -50,7 +50,11 @@ public class Main
 		}
 
 		// Query the Bayes Net
-		Query query = new Query(queryArg, bayesNet);
+		Query query = null;
+
+		try { query = new Query(queryArg, bayesNet); }
+		catch(Exception ex) { System.out.println(ex.getMessage()); return; }
+
 		Map<Boolean, Double> result = bayesNet.parseQuery(query);
 
 		// Print the Result
