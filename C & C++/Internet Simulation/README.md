@@ -98,7 +98,7 @@ The Following Flags serve the specified Purpose:
     - Debug Levels vary from 0 to 4, where 0 is Off, and 4 is Maximum. It is recommended that you use values 1 - 3.
 
 ###Debugging:
-Running a Node without the Debug Parameter will cause the Console to lock up for however long the Node is set to live. Given the boring nature of this Output, as well as no knowledge of how Nodes go about their business, it is recommended that you use the Debug Feature. Different Nodes can have different Debug Levels. I personally recommend having Source and Destination Nodes on Debug Level 3, Intermediate Nodes on Debug Level 1 or 2, and all other Nodes on Debug Level 1. You should need to use Debug Level 4 unless you're actually trying to fix something.
+Running a Node without the Debug Parameter will cause the Console to lock up for however long the Node is set to live. Given the boring nature of this Output, as well as no knowledge of how Nodes go about their business, it is recommended that you use the Debug Feature. Different Nodes can have different Debug Levels. I personally recommend having Source and Destination Nodes on Debug Level 3, Intermediate Nodes on Debug Level 1 or 2, and all other Nodes on Debug Level 1. You shouldn't need to use Debug Level 4 unless you're actually trying to fix something.
 
 Example Output for the following Test Case:
 
