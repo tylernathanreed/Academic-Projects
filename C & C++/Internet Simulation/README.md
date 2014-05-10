@@ -4,14 +4,14 @@ Internet Simulation
 ##Project Description:
 Simulate a simple Network by having a Process correspond to a Node in the Network, and Files correspond to Channels in the Network. The Network supports up to 10 Nodes.
 
-###Channel and Output Files:
+###<u>Channel and Output Files</u>:
 Nodes will Read and Write to Files in the Channels Folder *(you must create the Directory yourself)*. Each File will be named `from[X]to[Y].txt` where `X` is the Source Node and `Y` is the Destination Node. Readers will access the `from[X]to[ID].txt` Files, where Writers will access `from[ID]to[Y].txt` Files.
 
 After Termination, Nodes will Output all received Messages into a File in the Output Folder *(you must create the Directory yourself*). Each file will be named `node[X]received.txt` where `X` is the Node that received the Messages.
 
 Files are not cleared after Termination so that you may see what the Nodes wrote to them. It is recommended that you clear these files by either using the `make clear` command specified in the `makefile` or manually by using the `rm ./Output/* & rm ./Channels/*` command.
 
-###Overview of each Layer:
+###<u>Overview of each Layer</u>:
 The Node is split into 3 Layers: Data Link, Network, and Transport.
 
 Each Layer has its respective Packaging and Unpackaging Methods to deal with communication between the same Layers of other Nodes.
@@ -71,7 +71,7 @@ There are three ways to compile this project:
 2) Download the contents of the *src* folder, run the ***make*** command *(Specified in the makefile)*
 3) Download the contents of the *src* folder, compile manually with `g++ ./Main.cpp ./DataLink.cpp ./Network.cpp ./Transport.cpp -o Node`
 
-###Execution:
+###<u>Execution</u>:
 The Program itself acts as a single Node within a Network. To properly run the Simulation, you will need to run multiple instances of the Program. You may do this in Bash with the `&` Operator, or specify a Test Case Scenario in a Shell Script.
 
 A single instance of the Node may be executed as such:
@@ -87,7 +87,7 @@ When run together, a Test Case Scenario may appear as such:
 
 This will prompt Node 0 to send "This is a Message" to Node 1.
 
-###Flags:
+###<u>Flags</u>:
 The following Flags serve the specified Purpose:
  - `-i <id>` : Specifies the ID of the Node
  - `-l <lifetime>` : Specifies the Lifetime of the Node *(In Seconds)*
