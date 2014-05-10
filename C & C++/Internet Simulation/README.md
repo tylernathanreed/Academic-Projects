@@ -30,7 +30,7 @@ A Data Link Package is of the form `SZZM...MCC` where:
 ####Network Layer:
 The Network Layer is responsible for Message Routing and delivering Messages to the Transport Layer once they have reached their Destination. If the Network Layer receives a Message for another Node, it is passed towards the Destination *(Going back down to the Data Link Layer)*.
 
-The Network Layer will periodically Broadcast Configuration Messages to establish the Routing Table and discover new Nodes, as well as determine when Nodes have died.
+The Network Layer will periodically Broadcast Configuration Messages to establish the Routing Table and discover new Nodes, as well as determine when Nodes have died. When a Node is first created, it will assume itself to be the Root until it receives a Configuration Message from a Node with a lower ID.
 
 A Network Routing Package is of the form `DSTM...M` where:
  - `D` is the Type Byte
