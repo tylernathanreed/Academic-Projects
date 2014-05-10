@@ -156,7 +156,7 @@ void Node::DataLink_sendToChannel(string message, int channel)
 // Sends a Message from the Data Link Layer to the Network Layer
 void Node::DataLink_sendToNetwork(string message, int channel)
 {
-	debugL(3, "Data Link | Sender", "$f1Sending {Message = '$f0%s$f1', Channel = $f0%i$f1} to Network Layer\n", message.c_str());
+	debugL(3, "Data Link | Sender", "$f1Sending {Message = '$f0%s$f1', Channel = $f0%i$f1} to Network Layer\n", message.c_str(), channel);
 
 	// Call the Network Layer's Receiver
 	Network_receiveFromDataLink(message, channel);
