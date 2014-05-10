@@ -315,8 +315,7 @@ inline void Node::initialize()
 		buffer -> insert(pair<int, string*>(i, new string("")));
 
 		// Initialize Expectations and Timeouts
-		int exp = 0; 
-		expected -> insert(pair<int, int*>(i, &exp));
+		expected -> insert(pair<int, int*>(i, new int(0)));
 
 		// Insert Send and Received Maps
 		sent -> insert(pair<int, map<int, string*>*>(i, new map<int, string*>()));
@@ -370,19 +369,19 @@ inline void Node::deinitialize()
 
 	debug(4, " -> Received Map Destroyed\n");
 
-	//for(map<int, int*>::iterator iterator = expected -> begin(); iterator != expected -> end(); iterator++)
-	//	delete (iterator -> second);
+	for(map<int, int*>::iterator iterator = expected -> begin(); iterator != expected -> end(); iterator++)
+		delete (iterator -> second);
 
-	//delete expected;
+	delete expected;
 
-	//debug(4, " -> Expected Map Destroyed\n");
+	debug(4, " -> Expected Map Destroyed\n");
 
-	//for(map<int, int*>::iterator iterator = timeout -> begin(); iterator != timeout -> end(); iterator++)
-	//	delete (iterator -> second);
+	for(map<int, int*>::iterator iterator = timeout -> begin(); iterator != timeout -> end(); iterator++)
+		delete (iterator -> second);
 
-	//delete timeout;
+	delete timeout;
 
-	//debug(4, " -> Timout Map Destroyed\n");
+	debug(4, " -> Timout Map Destroyed\n");
 
 	// Channel Variables
 	for(it_mis iterator = buffer -> begin(); iterator != buffer -> end(); iterator++)
@@ -439,7 +438,7 @@ inline void Node::run()
 		debug(3, "Starting Buffer: '$f1%s$f0' ('$f1%s$f0' + '$f1%s$f0')\n", (*bp).c_str(), old.c_str(), received.c_str());
 
 		// Try to Send it to the Data Link Layer
-		if(DataLink_receiveFromChannel(*bp, i))
+		while((*bp).length() > 0 && DataLink_receiveFromChannel(*bp, i))
 		{
 			// Determine what to remove from the Buffer
 			int size = atoi((*bp).substr(1, 2).c_str());
@@ -448,7 +447,8 @@ inline void Node::run()
 			debug(3, "Remaining Buffer: '$f1%s$f0' (Removed $f1%i$f0 Characters)\n", (*bp).c_str(), size);
 			debug(4, " -> Pointer: $f1%i$f0 ('$f1%s$f0')\n", buffer -> at(i), (*(buffer -> at(i))).c_str());
 		}
-		else // Invalid Message
+
+		if((*bp).length() > 0) // Invalid Message
 		{
 			// Check Type
 			char type = (*bp)[0];
@@ -520,7 +520,9 @@ inline void Node::run()
 		for(map<int, int*>::iterator iterator = timeout -> begin(); iterator != timeout -> end(); iterator++)
 		{
 			// Determine Expected Value
-			int exp = *(iterator -> second) + MESSAGE_TIMEOUT;
+			int exp = *(iterator -> second);
+
+			debug(3, "Timout Check for Node $f1%i$f0: $f1%i$f0\n", iterator -> first, *(iterator -> second));
 
 			// Determine whether or not a Timeout has Occurred
 			if(lifetime > exp)
