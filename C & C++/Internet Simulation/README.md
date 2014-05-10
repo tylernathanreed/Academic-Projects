@@ -1,7 +1,8 @@
 Internet Simulation
 ===================
 
-**Project Description:**<br>
+Project Description:
+#################### H3
 Simulate a simple Network by having a Process correspond to a Node in the Network, and Files correspond to Channels in the Network. The Network supports up to 10 Nodes.
 
 **Channel and Output Files:**<br>
