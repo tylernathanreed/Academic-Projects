@@ -66,9 +66,9 @@ When all layers are chained together, their activity may appear as such:
 <img src="https://dl.dropboxusercontent.com/u/22054931/Photo%20Dump/Git%20Hub/Internet%20Simulation/Layer%20Design.png" alt="Node Layer Design">
 
 ##Compile:
-There are three ways to compile this project:
-1) Download the contents of the *exe* folder, everything is already done for you.
-2) Download the contents of the *src* folder, run the ***make*** command *(Specified in the makefile)*
+There are three ways to compile this project:<br>
+1) Download the contents of the *exe* folder, everything is already done for you.<br>
+2) Download the contents of the *src* folder, run the ***make*** command *(Specified in the makefile)*<br>
 3) Download the contents of the *src* folder, compile manually with `g++ ./Main.cpp ./DataLink.cpp ./Network.cpp ./Transport.cpp -o Node`
 
 ###Execution:
