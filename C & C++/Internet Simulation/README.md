@@ -1,25 +1,24 @@
 Internet Simulation
 ===================
 
-Project Description:
-#################### H3
+###Project Description:
 Simulate a simple Network by having a Process correspond to a Node in the Network, and Files correspond to Channels in the Network. The Network supports up to 10 Nodes.
 
-**Channel and Output Files:**<br>
+####Channel and Output Files:
 Nodes will Read and Write to Files in the Channels Folder *(you must create the Directory yourself)*. Each File will be named `from[X]to[Y].txt` where `X` is the Source Node and `Y` is the Destination Node. Readers will access the `from[X]to[ID].txt` Files, where Writers will access `from[ID]to[Y].txt` Files.
 
 After Termination, Nodes will Output all received Messages into a File in the Output Folder *(you must create the Directory yourself*). Each file will be named `node[X]received.txt` where `X` is the Node that received the Messages.
 
 Files are not cleared after Termination so that you may see what the Nodes wrote to them. It is recommended that you clear these files by either using the `make clear` command specified in the `makefile` or manually by using the `rm ./Output/* & rm ./Channels/*` command.
 
-**Overview of each Layer:**<br>
+####Overview of each Layer:
 The Node is split into 3 Layers: Data Link, Network, and Transport.
 
 Each Layer has its respective Packaging and Unpackaging Methods to deal with communication between the same Layers of other Nodes.
 
 A full Message in a Channel may appear as `SZZ[DST[DSTQQ[M...M]]CC` *(Brackets not included)*
 
-***Data Link Layer:***<br>
+#####Data Link Layer:
 The Data Link Layer is responsible for Channel I/O and will Read and Write from/to Channels.
 
 A Data Link Package is of the form `SZZM...MCC` where:
@@ -28,7 +27,7 @@ A Data Link Package is of the form `SZZM...MCC` where:
   - `M...M` is the Message *(This is likely a Package for the Network Layer)*
   - `CC` is the Check Sum *(Modulo 100)*, which takes the sum of the ASCII values of the Package
 
-***Network Layer:***<br>
+#####Network Layer:
 The Network Layer is responsible for Message Routing and delivering Messages to the Transport Layer once they have reached their Destination. If the Network Layer receives a Message for another Node, it is passed towards the Destination *(Going back down to the Data Link Layer)*.
 
 The Network Layer will periodically Broadcast Configuration Messages to establish the Routing Table and discover new Nodes, as well as determine when Nodes have died.
@@ -46,7 +45,7 @@ A Network Configuration Package is of the form `CRSTHH` where:
  - `T` is the Destination ID
  - `HH` is the Hop Count *(Distance)* from the Root ID
 
-***Transport Layer:***<br>
+#####Transport Layer:
 The Transport Layer is responsible for End-to-End Messaging, and will split up Messages into smaller portions if they are too large. Negative Acknowledgements will be sent to the Source Node when it recognizes that a Message failed to be received.
 
 A Transport Partial Message Package is of the form `DSTQQM...M` where:
@@ -66,13 +65,13 @@ A Transport Negative Acknowledgement Package is of the form `NSTQQ` where:
 When all layers are chained together, their activity may appear as such:
 <img src="https://dl.dropboxusercontent.com/u/22054931/Photo%20Dump/Git%20Hub/Internet%20Simulation/Layer%20Design.png" alt="Node Layer Design">
 
-**Compile:**<br>
+###Compile:
 There are three ways to compile this project:
 1) Download the contents of the *exe* folder, everything is already done for you.
 2) Download the contents of the *src* folder, run the ***make*** command *(Specified in the makefile)*
 3) Download the contents of the *src* folder, compile manually with `g++ ./Main.cpp ./DataLink.cpp ./Network.cpp ./Transport.cpp -o Node`
 
-**Execution:**<br>
+####Execution:
 The Program itself acts as a single Node within a Network. To properly run the Simulation, you will need to run multiple instances of the Program. You may do this in Bash with the `&` Operator, or specify a Test Case Scenario in a Shell Script.
 
 A single instance of the Node may be executed as such:
@@ -88,7 +87,7 @@ When run together, a Test Case Scenario may appear as such:
 
 This will prompt Node 0 to send "This is a Message" to Node 1.
 
-*Flags:**<br>
+####Flags:
 The following Flags serve the specified Purpose:
  - `-i <id>` : Specifies the ID of the Node
  - `-l <lifetime>` : Specifies the Lifetime of the Node *(In Seconds)*
