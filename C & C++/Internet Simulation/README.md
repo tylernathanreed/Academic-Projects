@@ -4,14 +4,14 @@ Internet Simulation
 ##Project Description:
 Simulate a simple Network by having a Process correspond to a Node in the Network, and Files correspond to Channels in the Network. The Network supports up to 10 Nodes.
 
-###<u>Channel and Output Files</u>:
+###Channel and Output Files:
 Nodes will Read and Write to Files in the Channels Folder *(you must create the Directory yourself)*. Each File will be named `from[X]to[Y].txt` where `X` is the Source Node and `Y` is the Destination Node. Readers will access the `from[X]to[ID].txt` Files, where Writers will access `from[ID]to[Y].txt` Files.
 
 After Termination, Nodes will Output all received Messages into a File in the Output Folder *(you must create the Directory yourself*). Each file will be named `node[X]received.txt` where `X` is the Node that received the Messages.
 
 Files are not cleared after Termination so that you may see what the Nodes wrote to them. It is recommended that you clear these files by either using the `make clear` command specified in the `makefile` or manually by using the `rm ./Output/* & rm ./Channels/*` command.
 
-###<u>Overview of each Layer</u>:
+###Overview of each Layer:
 The Node is split into 3 Layers: Data Link, Network, and Transport.
 
 Each Layer has its respective Packaging and Unpackaging Methods to deal with communication between the same Layers of other Nodes.
@@ -71,7 +71,7 @@ There are three ways to compile this project:
 2) Download the contents of the *src* folder, run the ***make*** command *(Specified in the makefile)*
 3) Download the contents of the *src* folder, compile manually with `g++ ./Main.cpp ./DataLink.cpp ./Network.cpp ./Transport.cpp -o Node`
 
-###<u>Execution</u>:
+###Execution:
 The Program itself acts as a single Node within a Network. To properly run the Simulation, you will need to run multiple instances of the Program. You may do this in Bash with the `&` Operator, or specify a Test Case Scenario in a Shell Script.
 
 A single instance of the Node may be executed as such:
@@ -87,8 +87,8 @@ When run together, a Test Case Scenario may appear as such:
 
 This will prompt Node 0 to send "This is a Message" to Node 1.
 
-###<u>Flags</u>:
-The following Flags serve the specified Purpose:
+###Flags:
+The Following Flags serve the specified Purpose:
  - `-i <id>` : Specifies the ID of the Node
  - `-l <lifetime>` : Specifies the Lifetime of the Node *(In Seconds)*
  - `-m <message>` : Specifies the Message to be Sent *[Optional; Must be in Quotes]*
@@ -96,3 +96,15 @@ The following Flags serve the specified Purpose:
  - `-n <count> <neighbors>` : Specifies the Number of Neighbors, and then a Space-Delimited List of Neighbors
  - `-D <debug level>` : Speicies the Debug Level of the Node *[Optional; Provides Runtime Output]*
     - Debug Levels vary from 0 to 4, where 0 is Off, and 4 is Maximum. It is recommended that you use values 1 - 3.
+
+###Debugging:
+Running a Node without the Debug Parameter will cause the Console to lock up for however long the Node is set to live. Given the boring nature of this Output, as well as no knowledge of how Nodes go about their business, it is recommended that you use the Debug Feature. Different Nodes can have different Debug Levels. I personally recommend having Source and Destination Nodes on Debug Level 3, Intermediate Nodes on Debug Level 1 or 2, and all other Nodes on Debug Level 1. You should need to use Debug Level 4 unless you're actually trying to fix something.
+
+Example Output for the following Test Case:
+
+    Node -i 0 -l 20 -m "This is a Message" -d 1 -n 1 1 -D 2 &
+    Node -i 1 -l 20 -n 1 0 -D 2
+
+<img src="https://dl.dropboxusercontent.com/u/22054931/Photo%20Dump/Git%20Hub/Internet%20Simulation/Sample%20Output.png" alt="Sample Output">
+
+This may seem like a lot of information, but to fully understand what everything is doing, having this feature is extremely useful.
