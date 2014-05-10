@@ -17,9 +17,18 @@ void Node::Transport_sendMessage(string message, int destination)
 {
 	debugL(2, "Transport", "Sending Message '$f1%s$f0' to Node $f1%i$f0\n", message.c_str(), destination);
 
-	// Create the Message Buffer
-	map<int, string*>* partials = new map<int, string*>();
+	// Create the Partial Message Buffer
+	map<int, string*>* partials;
 
+	if(sent -> find(destination) != sent -> end())
+		partials = sent -> at(destination);
+	else
+	{
+		partials = new map<int, string*>();
+		sent -> insert(pair<int, map<int, string*>*>(destination, partials));
+	}
+
+	// Break Apart the Message and Send Partial Messages
 	for(int i = 0; i < message.length(); i += LIMIT_WINDOW)
 	{
 		// Determine the Message Partial
@@ -31,7 +40,10 @@ void Node::Transport_sendMessage(string message, int destination)
 		debugL(3, "Transport", " -> Sending Partial Message $f1%i$f0: '$f1%s$f0'\n", sequence, partial.c_str());
 
 		// Insert the Partial message into the Message Buffer
-		partials -> insert(pair<int, string*>(sequence, new string(partial)));
+		if(partials -> find(sequence) != partials -> end())
+			*(partials -> at(sequence)) = partial;
+		else
+			partials -> insert(pair<int, string*>(sequence, new string(partial)));
 
 		// Package the Partial Message
 		string package = Transport_packagePartialMessage(partial, destination, sequence);
@@ -39,9 +51,6 @@ void Node::Transport_sendMessage(string message, int destination)
 		// Send the Package
 		send_buffer -> push(new pair<int, string*>(destination, new string(package)));
 	}
-
-	// Store the Message in the Sent Buffer
-	sent -> insert(pair<int, map<int, string*>*>(destination, partials));
 }
 
 // Receives a Message from the specified Destination
@@ -58,23 +67,43 @@ void Node::Transport_receiveMessage(string message, int source, int sequence)
 
 	// Insert the Partial Message
 	if(rcv -> find(sequence) != rcv -> end())
-		delete rcv -> at(sequence);
-
-	rcv -> insert(pair<int, string*>(sequence, new string(message)));
+		*(rcv -> at(sequence)) = message;
+	else
+		rcv -> insert(pair<int, string*>(sequence, new string(message)));
 
 	// Match the Sequence against the Expected Value
 	if(*(expected -> at(source)) == sequence)
 	{
 		// Determine the Next Expected Value
-		int exp;
+		int exp = sequence + 1;
 
-		for(exp = sequence + 1; rcv -> find(exp) != rcv -> end(); exp++);
-
-		debugL(3, "Transport", " -> New Expected Sequence: $f1%i$f0\n", exp);
+		// Account for Partial Messages that may have already Arrived
+		for(; rcv -> find(exp) != rcv -> end(); exp++)
+			debugL(3, "Transport", " -> Discovered Buffered Message $f1%i$f0\n", exp);
 
 		// Increase the Expected Value
-		expected -> insert(pair<int, int*>(source, &exp));
-		timeout -> insert(pair<int, int*>(source, &lifetime));
+		if(expected -> find(source) != expected -> end())
+		{
+			debugL(3, "Transport", " -> Updated Expected Value for Node $f1%i$f0 from $f1%i$f0 to $f1%i$f0\n", source, *(expected -> at(source)), exp);
+			*(expected -> at(source)) = exp;
+		}
+		else
+		{
+			debugL(3, "Transport", " -> Created new Expected Value for Node $f1%i$f0 ($f1%i$f0)\n", source, exp);
+			expected -> insert(pair<int, int*>(source, new int(exp)));
+		}
+
+		// Increase the Timeout Value
+		if(timeout -> find(source) != timeout -> end())
+		{
+			debugL(3, "Transport", " -> Updated Timeout for Node $f1%i$f0 from $f1%i$f0 to $f1%i$f0\n", source, *(timeout -> at(source)), lifetime + MESSAGE_TIMEOUT);
+			*(timeout -> at(source)) = lifetime + MESSAGE_TIMEOUT;
+		}
+		else
+		{
+			debugL(3, "Transport", " -> Created New Timeout Value for Node $f1%i$f0 ($f1%i$f0)\n", source, lifetime + MESSAGE_TIMEOUT);
+			timeout -> insert(pair<int, int*>(source, new int(lifetime + MESSAGE_TIMEOUT)));
+		}
 	}
 	//
 	//else if(*(expected -> at(source)) < sequence)
@@ -255,11 +284,16 @@ bool Node::Transport_receiveFromNetwork(string package)
 				if(entry -> find(sequence) != entry -> end())
 				{
 					string message = *(entry -> at(sequence));
-					Transport_sendMessage(message, source);
+
+					// Package the Partial Message
+					string package = Transport_packagePartialMessage(message, source, sequence);
+
+					// Send the Package
+					send_buffer -> push(new pair<int, string*>(source, new string(package)));
 					return true;
 				}
 				else
-					debugL(1, "Transport | Receiver", "$f2 -> Missing Requested Message $f0%i$f2!\n", sequence);
+					debugL(1, "Transport | Receiver", "$f2 -> Missing Message $f0%i$f2 requested by Node $f0%i$f2!\n", sequence, source);
 			}
 			else
 				debugL(1, "Transport | Receiver", "$f2 -> Missing Sent Map for Node $f0%i$f2!\n", source);
