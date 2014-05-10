@@ -324,12 +324,12 @@ bool Node::Network_receiveFromDataLink(string message, int channel)
 			}
 
 			// Update Children
-			debugL(3, "Network | Receiver", "$f2 -> Child Check {Root: $f0%i$f2, Hop Count $f0%i$f2}\n", this -> root == root, hop_count - 1 == *(entry -> second));
+			debugL(4, "Network | Receiver", "$f2 -> Child Check {Root: $f0%i$f2, Hop Count $f0%i$f2}\n", this -> root == root, hop_count - 1 == *(entry -> second));
 
 			if(this -> root != root)
-				debugL(3, "Network | Receiver", "$f2    -> [Root] Known: $f0%i$f2, Advertised: $f0%i$f2\n", this -> root, root);
+				debugL(4, "Network | Receiver", "$f2    -> [Root] Known: $f0%i$f2, Advertised: $f0%i$f2\n", this -> root, root);
 			if(hop_count - 1 != *(entry -> second))
-				debugL(3, "Network | Receiver", "$f2    -> [Hop Count] Known: $f0%i$f2, Advertised: $f0%i$f2\n", hop_count - 1, *(entry -> second));
+				debugL(4, "Network | Receiver", "$f2    -> [Hop Count] Known: $f0%i$f2, Advertised: $f0%i$f2\n", hop_count - 1, *(entry -> second));
 
 			if(this -> root == root && hop_count - 1 == *(entry -> second))
 			{
